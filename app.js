@@ -8,7 +8,7 @@ const List = ()=>{
     // console.log(notes)
     console.log("--- Printing", notes.length, "Note (s) ---\n");
     notes.forEach(note => {
-              console.log(" title:", note.title, "\n body:", note.body);
+              console.log(" title:", note.title, "\n body:", note.body,"\n");
     });
 }
 const Read=(title)=>{
@@ -16,31 +16,40 @@ if(title){
     let notes = JSON.parse(fs.readFileSync("note.json"));
     let read = notes.filter(note=>  note.title===title &&
                console.log("--- Note Found ---\n","title:",note.title,'\n', "body:", note.body));
-        }else{
-            console.log('Options : \n',
-            "title of note ")
-        }
+        }else help();
 }
 
 const Remove =(title)=>{
+    if(title){
     let notes = JSON.parse(fs.readFileSync("note.json"));
     let notesFiltrer = notes.filter(note=>note.title!==title);
     fs.writeFileSync("note.json", JSON.stringify(notesFiltrer));
     console.log("Note was Removed")
+    }else help();
 
 }
 const Add = (title , body)=>{
+    if(title&&body){
     let note={title, body }
     let notes = [...JSON.parse(fs.readFileSync("note.json")),note];
     fs.writeFileSync("note.json",JSON.stringify(notes));
     console.log("Note was Created")
+    }else help();
 }
 
 const help = ()=>{
-    console.log("\n Options : \n",
-    "list : Show list of notes \n",
-    "read : Read a specific note \n",
-    "remove : remove note")
+    console.log('\n\n---------FOR ADDING NEW LIST :\n'+
+    'node app.js add  newtiltle newbody\n\n\n'+ 
+
+    '---------FOR LIST ALL NOTE\n'+
+    'node app.js list\n\n\n'+
+
+    '---------FOR ROMOVE A NOTE\n'+
+    'node app.js remove title\n\n\n'+
+
+    '---------FOR READ A SPECIFIC NOTE\n'+
+    'node app.js read title\n'
+    )
 }
 
 
